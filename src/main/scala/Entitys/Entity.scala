@@ -1,8 +1,10 @@
 package Entitys
 
+import Effects.{Duration, Effect}
+
 trait Entity{
 
-  def baseStats(): EntityStats = baseStat
+  def baseStats(): EntityStats = ???
 
   def heal(hp: Int): Entity = ???
 
