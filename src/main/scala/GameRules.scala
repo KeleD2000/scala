@@ -1,17 +1,45 @@
 import Items.{Armor, Consumable, Equipment, Item, Placable, Weapon}
 
+/**
+ * Egy olyan case class, ami tartalmaza a világban lévő összes item típust
+ * és az alkalmazható összes receptet
+ */
 case class GameRules(){
 
+  /**
+   * Visszaadja az összes Itemet amire igaz a predikátum
+   * @param p predikátum
+   */
   def getItems(p: Item => Boolean): Vector[Item] = ???
 
-  def getPlacable(): Vector[Placable] = ???
+  /**
+   * Visszaadja az Placable Itemeket amire igaz a predikátum
+   * @param p predikátum
+   */
+  def getPlacables(p: Item => Boolean): Vector[Placable] = ???
 
-  def getWeapons(): Vector[Weapon] = ???
+  /**
+   * Visszaadja az Weapons Itemeket amire igaz a predikátum
+   * @param p predikátum
+   */
+  def getWeapons(p: Item => Boolean): Vector[Weapon] = ???
 
-  def getArmor(): Vector[Armor] = ???
+  /**
+   * Visszaadja az Armors Itemeket amire igaz a predikátum
+   * @param p predikátum
+   */
+  def getArmors(p: Item => Boolean): Vector[Armor] = ???
 
-  def getEquipment(): Vector[Equipment] = ???
+  /**
+   * Visszaadja az Equipments Itemeket amire igaz a predikátum
+   * @param p predikátum
+   */
+  def getEquipments(p: Item => Boolean): Vector[Equipment] = ???
 
-  def getConsumable(): Vector[Consumable] = ???
+  /**
+   * Visszaadja az Consumables Itemeket amire igaz a predikátum
+   * @param p predikátum
+   */
+  def getConsumables(p: Item => Boolean): Vector[Consumable] = ???
 
 }
