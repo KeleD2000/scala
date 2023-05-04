@@ -144,21 +144,4 @@ case class WorldState(req: Vector[Request], player: Vector[Player], mob: Vector[
 
   def width(): Int = ???
 
-  /*
-  def handle(request: Request): WorldState = request match {
-    case Tick => ???
-    case Join(player) => ???
-    case LeavePlayer(player) => ???
-    case Die(id) => ???
-    case Mine(id, position) => ???
-    case StoreItem(playerID, chestID) => ???
-    case LootItem(playerID, chestID, index) => ???
-    case Consume(playerID) => ???
-    case MoveEntity(playerID, position) => ???
-    case HitEntity(attackerID, defenderID) => ???
-
-
-  }
-*/
-
 }
