@@ -7,6 +7,4 @@ package Items
  * @param maxStackSize inventory slot maxmimuma egy adott Itemnek
  * @param defense védelemre szolgál
  */
-case class Armor(name: String, maxStackSize: Int = 1, defense: Int) extends Item{
-
-}
+case class Armor(name: String, maxStackSize: Int = 1, defense: Int) extends Item

@@ -1,17 +1,20 @@
 package Items
-
 /**
- * Placable egy trait (interface), ami az Item-ből extends-el
+ * Placabel interface ami egy speciális item
  */
 trait Placable extends Item {
+  val canBeMined: Boolean = true
+  /**
+   * Item nevét visszaadó metódus
+   *
+   * @return item neve
+   */
+  override def name: String = this.name
 
   /**
-   * Felülírja a name metódus ami az Item nevét adja meg
+   * Item stack méretét visszaadó metódus
+   *
+   * @return item stack méret
    */
-  override def name: String = ???
-
-  /**
-   * Felülírja a maxStackSize metódus aminek pozitívnak kell lennie, és megadja hogy egy adott típusú itemből egy inventory slotban mennyit rakhatsz maximum
-   */
-  override def maxStackSize: Int = ???
+  override def maxStackSize: Int = this.maxStackSize
 }

@@ -13,6 +13,6 @@ trait Effect {
    * @param stats átalakítandó stat
    * @return EntityStats-ot
    */
-  def apply(stats: EntityStats): EntityStats = ???
+  def apply(stats: EntityStats): EntityStats
 
 }

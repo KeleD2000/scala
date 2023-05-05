@@ -1,11 +1,12 @@
 package Items
 
-/**
- * Egy olyan case class, amibe fix számú eqiupment slotjuk van
- * maximum egy Equipment-je lehet
- * @param name Item neve
- * @param maxStackSize inventory slot maxmimuma egy adott Itemnek
- */
-case class Equipment(name: String, maxStackSize: Int = 1) extends Item{
+import Effects.{Duration, Effect}
 
+/**
+ * Equipment interface
+ *
+ * @param effects az itemen lévő effekt, duration tuple
+ */
+trait Equipment extends Item{
+  val effects: Vector[(Effect, Duration)]
 }
