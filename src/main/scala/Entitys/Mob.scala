@@ -14,7 +14,7 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
   /**
    * Entitás alapjstatajainak visszaadása
    */
-  override def baseStats(): EntityStats = baseStat
+  override def baseStats(): EntityStats = this.baseStat
 
   /**
    * Felülírja az entitás életerejének növelésére szolgáló metódust,
@@ -23,7 +23,13 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
    * @param hp ennyivel legyen több az életereje
    * @return A felhealhelt entitás vagy az original ha a hp negatív
    */
-  override def heal(hp: Int): Entity = ???
+  override def heal(hp: Int): Entity = {
+    if (hp < 0) this else {
+      val maxHp = baseStat.maxHP
+      val newHp = (this.currentHP + hp).min(maxHp)
+      this.copy(currentHP = newHp)
+    }
+  }
 
   /**
    * Felülírja az entitás életerejének csökkenésére szolgálaló metódust,
@@ -31,7 +37,11 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
    * @param hp ennyivel legyen kevesebb az életereje
    * @return ha pozítiv marad, akkor adjuk vissza Optionbe, de ha 0 vagy az alá csökken , akkor None
    */
-  override def takeDamage(hp: Int): Option[Entity] = ???
+  override def takeDamage(hp: Int): Option[Entity] = {
+    val newHealth = this.currentHP - hp
+    if(newHealth <= 0) None
+    else Some(this.copy(currentHP = newHealth))
+  }
 
   /**
    * Felülírja az entitás effect listájának a bővítésére való metódust,
@@ -50,7 +60,10 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
    * @param p predikátum
    * @return Entitás a frissített effect listával
    */
-  override def removeEffect(p: Effect => Boolean): Entity = ???
+  override def removeEffects(p: Effect => Boolean): Entity = {
+    val updatedEffects = activeEffect.filterNot { case (effect, _) => p(effect) }
+    copy(activeEffect = updatedEffects)
+  }
 
   /**
    * Felülírja azEntitás mozgatása egy másik pozira metódust
@@ -58,7 +71,9 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
    * @param position az a pozi, amire mozgatni szeretnénk az entitást
    * @return Entitás amely mozgatva lett az új oldal
    */
-  override def moveTo(position: Position): Entity = ???
+  override def moveTo(position: Position): Entity = {
+    this.copy(position = position)
+  }
 
   /**
    * Felülírja az adott esetben akár el is pusztulhat, ekkor az opcióban Nonet
@@ -70,6 +85,14 @@ case class Mob(name: String, id: String, baseStat: EntityStats, currentHP: Int, 
    *
    * @return Hogy egy tickkel később mivé válik ez az entitás.
    */
-  override def tick(): Option[Entity] = ???
+  override def tick(): Option[Entity] = {
+    val (active, _) = activeEffect.mapValues(_.tick()).partition(_._2.isDefined)
+    val newActiveE = active.collect { case (k, Some(v)) => k -> v }
+    val newHealth = (currentHP + baseStat.regeneration).min(baseStat.maxHP)
+    val newE = this.copy(activeEffect = newActiveE.toMap, currentHP = newHealth.toInt)
+    if (newHealth <= 0) None
+    else Some(newE)
+  }
 
+  def isAlive(): Boolean = currentHP == 0
 }

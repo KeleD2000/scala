@@ -17,14 +17,18 @@ case class EntityStats(attack: Int, defense: Int, speed: Double, maxHP: Int, reg
    * @param effect ez az effect alapján kerül módosításra az entitás
    * @return Módositás utáni entitás
    */
-  def applyEffect(effect: Effect): EntityStats = ???
+  def applyEffect(effect: Effect): EntityStats = {
+    effect.apply(this)
+    this
+  }
 
   /**
    * Visszaadja a kapott effectek mindegyike alapján a módosult statokat
    * @param effect a kapott effect ez lehet egy vagy több is
    * @return Módositás utáni entitás statjai
    */
-  def applyEffect(effect: Effect*): EntityStats = ???
-
-
+  def applyEffect(effect: Effect*): EntityStats = {
+    effect.foreach(_.apply(this))
+    this
+  }
 }

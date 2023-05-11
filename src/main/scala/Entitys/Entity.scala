@@ -10,7 +10,7 @@ trait Entity{
   /**
    * Entitás alapstatjainak visszaadasa
    */
-  def baseStats(): EntityStats = ???
+  def baseStats(): EntityStats
 
   /**
    * Az entitás életerejének növelésére szolgáló metódus,
@@ -18,14 +18,14 @@ trait Entity{
    * @param hp ennyivel legyen több az életereje
    * @return A felhealhelt entitás vagy az original ha a hp negatív
    */
-  def heal(hp: Int): Entity = ???
+  def heal(hp: Int): Entity
 
   /**
    * Az entitás életerejének csökkenésére szolgálaló metódus,
    * @param hp ennyivel legyen kevesebb az életereje
    * @return ha pozítiv marad, akkor adjuk vissza Optionbe, de ha 0 vagy az alá csökken , akkor None
    */
-  def takeDamage(hp: Int): Option[Entity] = ???
+  def takeDamage(hp: Int): Option[Entity]
 
   /**
    * Az entitás effect listájának a bővítésére való metódus,
@@ -35,21 +35,21 @@ trait Entity{
    * @param duration mennyi idő alatt
    * @return Entitás a frissített effect listával
    */
-  def addEffect(effect: Effect, duration: Duration) : Entity = ???
+  def addEffect(effect: Effect, duration: Duration) : Entity
 
   /**
    * Effect a levétel az entitásról
    * @param p predikátum
    * @return Entitás a frissített effect listával
    */
-  def removeEffect(p: Effect => Boolean): Entity = ???
+  def removeEffects(p: Effect => Boolean): Entity
 
   /**
    * Entitás mozgatása egy másik pozira
    * @param position az a pozi, amire mozgatni szeretnénk az entitást
    * @return Entitás amely mozgatva lett az új oldal
    */
-  def moveTo(position: Position): Entity = ???
+  def moveTo(position: Position): Entity
 
   /**
    * Adott esetben akár el is pusztulhat, ekkor az opcióban Nonet
@@ -60,7 +60,7 @@ trait Entity{
    * alkalmazzuk.
    * @return Hogy egy tickkel később mivé válik ez az entitás.
    */
-  def tick() : Option[Entity] = ???
+  def tick() : Option[Entity]
 
 
 }

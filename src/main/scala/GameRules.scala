@@ -22,33 +22,33 @@ case class GameRules(){
    *
    * @param p predikátum
    */
-  def getPlacables(p: Item => Boolean): Vector[Placable] = Items.collect { case p: Placable => p }
+  def getPlacables(p: Item => Boolean): Vector[Placable] = Items.collect { case placable: Placable if p(placable) => placable }
 
   /**
    * Visszaadja az Weapons Itemek egy vektorát amire igaz a predikátum
    *
    * @param p predikátum
    */
-  def getWeapons(p: Item => Boolean): Vector[Weapon] = Items.collect { case w: Weapon => w }
+  def getWeapons(p: Item => Boolean): Vector[Weapon] = Items.collect { case w: Weapon if p(w) => w }
 
   /**
    * Visszaadja az ArmorsItemek egy vektorát amire igaz a predikátum
    *
    * @param p predikátum
    */
-  def getArmors(p: Item => Boolean): Vector[Armor] = Items.collect { case a: Armor => a }
+  def getArmors(p: Item => Boolean): Vector[Armor] = Items.collect { case a: Armor if p(a) => a }
 
   /**
    * Visszaadja az Equipments Itemek egy vektorát amire igaz a predikátum
    *
    * @param p predikátum
    */
-  def getEquipments(p: Item => Boolean): Vector[Equipment] = Items.collect { case eq: Equipment => eq }
+  def getEquipments(p: Item => Boolean): Vector[Equipment] = Items.collect { case eq: Equipment if p(eq) => eq }
 
   /**
    * Visszaadja az Consumables Itemek egy vektorát amire igaz a predikátum
    *
    * @param p predikátum
    */
-  def getConsumables(p: Item => Boolean): Vector[Consumable] = Items.collect { case c: Consumable => c }
+  def getConsumables(p: Item => Boolean): Vector[Consumable] = Items.collect { case c: Consumable if p(c) => c }
 }
