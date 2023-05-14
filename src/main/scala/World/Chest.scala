@@ -40,8 +40,8 @@ case class Chest(cap: Int, id: String) extends Placable {
    *
    * @param stack stack amit be szeretnék rakni a chestbe
    * @return Ha befér az aktualizálst chestet adja vissza a bal oldali koordinátán
-   *                  , az esetleges maradékot
-   *                  , ami már nem fér a ládába a másodikon
+   *         , az esetleges maradékot
+   *         , ami már nem fér a ládába a másodikon
    */
 
   def +(stack: ItemStack): (Chest, Option[ItemStack]) = {
@@ -66,45 +66,46 @@ case class Chest(cap: Int, id: String) extends Placable {
   }
 
 
-    /** Próbáljuk meg betenni az indexedik slotba az érkező stacket.
-     *
-     * @param index a slot indexe ahova helyezni akarjuk a stacket
-     * @param stack a berakni kívánt stack
-     * @return Ha nincs ilyen index
-     *         , akkor adja vissza az eredeti ládát és az eredeti stacket;
-     *         ha van ilyen index
-     *         , akkor a visszaadott érték láda komponensében az épp berakott stack legyen
-     *         , az itemstack opció komponensében pedig az ezen a pozíción eredetileg lévő tartalom !(Ami lehet épp None is, ha ebben a slotban nem volt eredetileg a chestben semmi.)
-     */
+  /** Próbáljuk meg betenni az indexedik slotba az érkező stacket.
+   *
+   * @param index a slot indexe ahova helyezni akarjuk a stacket
+   * @param stack a berakni kívánt stack
+   * @return Ha nincs ilyen index
+   *         , akkor adja vissza az eredeti ládát és az eredeti stacket;
+   *         ha van ilyen index
+   *         , akkor a visszaadott érték láda komponensében az épp berakott stack legyen
+   *         , az itemstack opció komponensében pedig az ezen a pozíción eredetileg lévő tartalom !(Ami lehet épp None is, ha ebben a slotban nem volt eredetileg a chestben semmi.)
+   */
 
-    def swap(index: Int, stack: ItemStack): (Chest, Option[ItemStack]) = {
-      if (index < 0 || index >= capacity) {
-        (this, Some(stack))
-      } else {
-        val items = this.Items.updated(index, Some(stack))
-        (Chest(cap, id), Items.head)
+  def swap(index: Int, stack: ItemStack): (Chest, Option[ItemStack]) = {
+    if (index < 0 || index >= capacity) {
+      (this, Some(stack))
+    } else {
+      val items = this.Items.updated(index, Some(stack))
+      (Chest(cap, id), Items.head)
+    }
+  }
+
+  /** Adja vissza hogy van - e a ládában a megadott itemből
+   *
+   * @param item amit keresünk a ládában
+   * @return true ha van, false ha nincs
+   */
+
+  def contains(item: Item): Boolean = Items.exists(_.exists(_.item == item))
+
+  /** Adja vissza hogy összesen mennyi van a ládában a megadott itemből(adja össze azoknak a stackeknek a méretét, amikben ez az item van)
+   *
+   * @param item amit megakarunk számolni a ládába
+   * @return összesen mennyi található a ládában az itemből
+   */
+
+  def count(item: Item): Int = {
+    this.Items.foldLeft(0) { (count, stackOpt) =>
+      stackOpt match {
+        case Some(stack) if stack.item == item => count + stack.db
+        case _ => count
       }
     }
-
-    /** Adja vissza hogy van - e a ládában a megadott itemből
-     *
-     * @param item amit keresünk a ládában
-     * @return true ha van, false ha nincs
-     */
-
-    def contains(item: Item): Boolean = Items.exists(_.exists(_.item == item))
-
-    /** Adja vissza hogy összesen mennyi van a ládában a megadott itemből(adja össze azoknak a stackeknek a méretét, amikben ez az item van)
-     *
-     * @param item amit megakarunk számolni a ládába
-     * @return összesen mennyi található a ládában az itemből
-     */
-
-    def count(item: Item): Int = {
-      this.Items.foldLeft(0) { (count, stackOpt) =>
-        stackOpt match {
-          case Some(stack) if stack.item == item => count + stack.db
-          case _ => count
-        }
-      }
+  }
 }
